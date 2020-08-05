@@ -11,6 +11,9 @@
   "repository": "https://github.com/atom-ide-community/babel",
   "license": "MIT",
   "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "npm run clean && ncc build index.js -o dist --minify && npm run minify",
+    "minify": "terser dist/index.js -o dist/index.js --compress --comments --ecma=2018",
     "bump": "ncu -u"
   },
   "dependencies": {
@@ -42,6 +45,10 @@
   "devDependencies": {
     "@babel/cli": "7.10.5",
     "@babel/core": "7.10.5",
-    "npm-check-updates": "7.0.2"
+    "npm-check-updates": "7.0.2",
+    "@zeit/ncc": "0.22.3",
+    "shx": "^0.3.2",
+    "cross-env": "^7.0.2",
+    "terser": "latest"
   }
 }
