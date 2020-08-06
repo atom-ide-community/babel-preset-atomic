@@ -1,5 +1,36 @@
 let keepModules = false // false by default
 
+// import presets
+const presetEnv = require("@babel/preset-env")
+const presetReact = require("@babel/preset-react")
+const presetFlow = require("@babel/preset-flow")
+
+// const plugins
+const pluginProposalFunctionBind = require("@babel/plugin-proposal-function-bind")
+
+const pluginProposalExportDefaultFrom = require("@babel/plugin-proposal-export-default-from")
+const pluginProposalLogicalAssignmentOperator = require("@babel/plugin-proposal-logical-assignment-operators")
+const pluginProposalOptionalChaining = require("@babel/plugin-proposal-optional-chaining")
+const pluginProposalPipelineOperator = require("@babel/plugin-proposal-pipeline-operator")
+const pluginProposalCoalescingOperator = require("@babel/plugin-proposal-nullish-coalescing-operator")
+const pluginProposalDoExpressions = require("@babel/plugin-proposal-do-expressions")
+
+const pluginProposalDecorators = require("@babel/plugin-proposal-decorators")
+const pluginProposalFunctionSent = require("@babel/plugin-proposal-function-sent")
+const pluginProposalExportNameSpaceFrom = require("@babel/plugin-proposal-export-namespace-from")
+const pluginProposalNumericSeperator = require("@babel/plugin-proposal-numeric-separator")
+const pluginProposalThrowExpressions = require("@babel/plugin-proposal-throw-expressions")
+
+const pluginProposalImportMeta = require("@babel/plugin-syntax-import-meta")
+const pluginProposalClassProperties = require("@babel/plugin-proposal-class-properties")
+const pluginProposalJSONStrings = require("@babel/plugin-proposal-json-strings")
+
+// module tranformer
+const pluginTransformModulesCommonJS = require("@babel/plugin-transform-modules-commonjs")
+const pluginSyntaxDynamicImport = require("@babel/plugin-syntax-dynamic-import")
+const pluginAddModuleExports = require("babel-plugin-add-module-exports")
+
+
 if (process.env.BABEL_ENV === "production") {
   keepModules = true
   console.warn("setting `BABEL_ENV` to `production` for bypassing ES6 module transformming is deprecated. Use BABEL_KEEP_MODULES=\"true\" instead.")
@@ -15,7 +46,7 @@ if (process.env.BABEL_KEEP_MODULES === "true") {
 
 let presets = [
   [
-    require("@babel/preset-env"),
+    presetEnv,
     {
       targets: {
         electron: 5,
@@ -23,38 +54,38 @@ let presets = [
       modules: keepModules ? "false" : "commonjs"
     },
   ],
-  require("@babel/preset-react"),
-  require("@babel/preset-flow"),
+  presetReact,
+  presetFlow
 ];
 
 let plugins = [
-  require("@babel/plugin-proposal-function-bind"),
+  pluginProposalFunctionBind,
 
-  require("@babel/plugin-proposal-export-default-from"),
-  require("@babel/plugin-proposal-logical-assignment-operators"),
-  [require("@babel/plugin-proposal-optional-chaining"), { loose: false }],
-  [require("@babel/plugin-proposal-pipeline-operator"), { proposal: "minimal" }],
-  [require("@babel/plugin-proposal-nullish-coalescing-operator"), { loose: false }],
-  require("@babel/plugin-proposal-do-expressions"),
+  pluginProposalExportDefaultFrom,
+  pluginProposalLogicalAssignmentOperator,
+  [pluginProposalOptionalChaining, { loose: false }],
+  [pluginProposalPipelineOperator, { proposal: "minimal" }],
+  [pluginProposalCoalescingOperator, { loose: false }],
+  pluginProposalDoExpressions,
 
-  [require("@babel/plugin-proposal-decorators"), { legacy: true }],
-  require("@babel/plugin-proposal-function-sent"),
-  require("@babel/plugin-proposal-export-namespace-from"),
-  require("@babel/plugin-proposal-numeric-separator"),
-  require("@babel/plugin-proposal-throw-expressions"),
+  [pluginProposalDecorators, { legacy: true }],
+  pluginProposalFunctionSent,
+  pluginProposalExportNameSpaceFrom,
+  pluginProposalNumericSeperator,
+  pluginProposalThrowExpressions,
 
-  require("@babel/plugin-syntax-import-meta"),
-  [require("@babel/plugin-proposal-class-properties"), { loose: true }],
-  require("@babel/plugin-proposal-json-strings"),
+  pluginProposalImportMeta,
+  [pluginProposalClassProperties, { loose: true }],
+  pluginProposalJSONStrings,
 ];
 
 
 // transform modules (e.g when without Rollup)
 if (!keepModules) {
   plugins.push(...[
-      require("@babel/plugin-transform-modules-commonjs"),
-      require("@babel/plugin-syntax-dynamic-import"),
-      [require("babel-plugin-add-module-exports"), {addDefaultProperty: false}] // atom needs this
+      pluginTransformModulesCommonJS,
+      pluginSyntaxDynamicImport,
+      [pluginAddModuleExports, {addDefaultProperty: false}] // atom needs this
   ]);
 }
 
