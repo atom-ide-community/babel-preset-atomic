@@ -52,8 +52,8 @@
     "@babel/core": "^7"
   },
   "devDependencies": {
-    "@babel/cli": "7.11.6",
-    "@babel/core": "7.11.6",
+    "@babel/cli": "7.13.10",
+    "@babel/core": "7.13.13",
     "npm-check-updates": "11.3.0"
   }
 }
