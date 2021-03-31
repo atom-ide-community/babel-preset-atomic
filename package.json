@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-atomic",
-  "main": "index.js",
+  "main": "dist/index.js",
   "version": "4.0.0",
   "files": [
     "./index.js"
@@ -18,6 +18,9 @@
     "test.format": "prettier . --check",
     "lint": "eslint . --fix",
     "test.lint": "eslint .",
+    "dev": "cross-env NODE_ENV=development parcel watch --target main index.js",
+    "build": "cross-env NODE_ENV=production parcel build --target main index.js",
+    "prepare": "npm run build",
     "bump": "ncu -u"
   },
   "prettier": "prettier-config-atomic",
@@ -57,6 +60,17 @@
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.14",
     "npm-check-updates": "11.3.0",
-    "prettier-config-atomic": "^1.0.1"
+    "prettier-config-atomic": "^1.0.1",
+    "cross-env": "^7.0.3",
+    "npm-check-updates": "11.3.0",
+    "parcel": "^2.0.0-nightly.632"
+  },
+  "targets": {
+    "main": {
+      "context": "node",
+      "includeNodeModules": true,
+      "outputFormat": "commonjs",
+      "isLibrary": true
+    }
   }
 }
